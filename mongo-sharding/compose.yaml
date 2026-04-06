@@ -1,0 +1,109 @@
+name: mongo-sharding
+
+services:
+  configSrv:
+    image: dh-mirror.gitverse.ru/mongo:latest
+    container_name: configSrv
+    restart: always
+    ports:
+      - "27017:27017"
+    networks:
+      - mongo-net
+    volumes:
+      - config-data:/data/db
+    command:
+      [
+        "--configsvr",
+        "--replSet",
+        "config_server",
+        "--dbpath",
+        "/data/db",
+        "--port",
+        "27017",
+        "--bind_ip_all"
+      ]
+
+  shard1:
+    image: dh-mirror.gitverse.ru/mongo:latest
+    container_name: shard1
+    restart: always
+    networks:
+      - mongo-net
+    volumes:
+      - shard1-data:/data/db
+    command:
+      [
+        "--shardsvr",
+        "--replSet",
+        "shard1",
+        "--dbpath",
+        "/data/db",
+        "--port",
+        "27018",
+        "--bind_ip_all"
+      ]
+
+  shard2:
+    image: dh-mirror.gitverse.ru/mongo:latest
+    container_name: shard2
+    restart: always
+    networks:
+      - mongo-net
+    volumes:
+      - shard2-data:/data/db
+    command:
+      [
+        "--shardsvr",
+        "--replSet",
+        "shard2",
+        "--dbpath",
+        "/data/db",
+        "--port",
+        "27019",
+        "--bind_ip_all"
+      ]
+
+  mongos:
+    image: dh-mirror.gitverse.ru/mongo:latest
+    container_name: mongos
+    restart: always
+    ports:
+      - "27020:27020"
+    networks:
+      - mongo-net
+    command:
+      [
+        "mongos",
+        "--configdb",
+        "config_server/configSrv:27017",
+        "--port",
+        "27020",
+        "--bind_ip_all"
+      ]
+    depends_on:
+      - configSrv
+      - shard1
+      - shard2
+
+  pymongo_api:
+    image: kazhem/pymongo_api:1.0.0
+    container_name: pymongo_api
+    restart: always
+    ports:
+      - "8080:8080"
+    networks:
+      - mongo-net
+    depends_on:
+      - mongos
+    environment:
+      MONGODB_URL: "mongodb://mongos:27020"
+      MONGODB_DATABASE_NAME: "somedb"
+
+networks:
+  mongo-net:
+    driver: bridge
+
+volumes:
+  config-data:
+  shard1-data:
+  shard2-data:
