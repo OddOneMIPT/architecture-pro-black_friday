@@ -52,10 +52,10 @@ chmod +x scripts/mongo-init.sh
 ### 4. Проверить кеширование
 
 ```shell
-# Первый вызов — медленный (~1с, без кеша)
+# Первый вызов — медленный 
 time curl -s http://localhost:8080/helloDoc/users > /dev/null
 
-# Второй вызов — быстрый (<100мс, из Redis)
+# Второй вызов — быстрый (из Redis)
 time curl -s http://localhost:8080/helloDoc/users > /dev/null
 ```
 

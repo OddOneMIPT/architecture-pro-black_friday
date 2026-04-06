@@ -206,7 +206,7 @@
     </mxGraphModel>
   </diagram>
   <diagram name="Schema 4 - API Gateway + Consul" id="schema4">
-    <mxGraphModel dx="1629" dy="1099" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+    <mxGraphModel dx="1063" dy="717" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -289,7 +289,11 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="s4-e-app2-consul" edge="1" parent="1" source="s4-app2" style="edgeStyle=orthogonalEdgeStyle;dashed=1;" target="s4-consul" value="register">
-          <mxGeometry relative="1" as="geometry" />
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="275" y="440" />
+            </Array>
+          </mxGeometry>
         </mxCell>
         <mxCell id="s4-e-app3-consul" edge="1" parent="1" source="s4-app3" style="edgeStyle=orthogonalEdgeStyle;dashed=1;" target="s4-consul" value="register">
           <mxGeometry relative="1" as="geometry" />
